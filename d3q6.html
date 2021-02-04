@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,7 +10,7 @@
   </head>
   <body>
     <script>
-      // D3Q27 lattice node model
+      // D3Q6 lattice node model
 
       var ortho = 10000;
 
@@ -47,7 +48,7 @@
         })
         .camera({
           proxy: true,
-          position: [ortho / 3, ortho / 1.8, ortho * 1.6],
+          position: [ortho / 2, ortho / 1.5, ortho * 1.6],
           rotation: [0, 0, 0],
         });
 
@@ -62,93 +63,9 @@
 
       // mathbox.set({ scale: 200, focus: 1 });
 
-      let ex = [
-        0,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-      ];
-      let ey = [
-        0,
-        0,
-        0,
-        1,
-        -1,
-        0,
-        0,
-        1,
-        1,
-        -1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-      ];
-      let ez = [
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        1,
-        1,
-        -1,
-        -1,
-        -1,
-        -1,
-      ];
+      let ex = [0, 1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, -1, 1, -1];
+      let ey = [0, 0, 0, 1, -1, 0, 0, 1, 1, -1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, -1];
+      let ez = [0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1];
 
       let e = [];
 
@@ -369,9 +286,10 @@
           data: ["0"],
         })
         .label({
-          offset: [10, 10],
+          offset: [20, 15],
           zIndex: 1,
           color: "black",
+          size: 20
         });
 
       // nearest neighbors
@@ -393,102 +311,12 @@
           data: ["", "1", "", "2", "", "3", "", "4", "", "5", "", "6"],
         })
         .label({
-          offset: [10, 10],
+          offset: [15, -15],
           zIndex: 1,
           color: "black",
+          size: 20
         });
 
-      // next-nearest neighbors
-      let nnn = e.slice(12, 36);
-      var vector = view
-        .array({
-          data: nnn,
-          width: nnn.length,
-          channels: 3,
-          items: 2,
-        })
-        .vector({
-          end: true,
-          width: 8,
-          color: colors.blue,
-        })
-        .text({
-          items: 2,
-          data: [
-            "",
-            "7",
-            "",
-            "8",
-            "",
-            "9",
-            "",
-            "10",
-            "",
-            "11",
-            "",
-            "12",
-            "",
-            "13",
-            "",
-            "14",
-            "",
-            "15",
-            "",
-            "16",
-            "",
-            "17",
-            "",
-            "18",
-          ],
-        })
-        .label({
-          offset: [10, 10],
-          zIndex: 1,
-          color: "black",
-        });
-
-      // next to next-nearest neighbors
-      let nnnn = e.slice(36, 52);
-      var vector = view
-        .array({
-          data: nnnn,
-          width: nnnn.length,
-          channels: 3,
-          items: 2,
-          live: false,
-        })
-        .vector({
-          end: true,
-          width: 8,
-          color: colors.purple,
-        })
-        .text({
-          aligned: false,
-          items: 2,
-          data: [
-            "",
-            "19",
-            "",
-            "20",
-            "",
-            "21",
-            "",
-            "22",
-            "",
-            "23",
-            "",
-            "24",
-            "",
-            "25",
-            "",
-            "26",
-          ],
-        })
-        .label({
-          offset: [10, 10],
-          zIndex: 1,
-          color: "black",
-        });
     </script>
   </body>
 </html>
