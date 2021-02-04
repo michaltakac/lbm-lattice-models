@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MathBox - Scatterplot</title>
+    <script src="./vendor/mathbox-bundle.min.js"></script>
+    <link rel="stylesheet" href="./vendor/mathbox.css" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+  </head>
+  <body>
+    <script>
+      // D3Q27 lattice node model
+
+      var ortho = 10000;
+
+      mathbox = mathBox({
+        plugins: ["core", "controls", "cursor", "mathbox"],
+        controls: {
+          klass: THREE.OrbitControls,
+        },
+        camera: {
+          fov: (Math.atan(1 / ortho) * 360) / π,
+          near: ortho / 4,
+          far: ortho * 4,
+        },
+      });
+      if (mathbox.fallback) throw "WebGL not supported";
+
+      three = mathbox.three;
+      three.renderer.setClearColor(new THREE.Color(255, 255, 255), 1.0);
+
+      var colors = {
+        red: 0xff4136, // red
+        yellow: 0xffdc00, // yellow
+        blue: 0x0074d9, // blue
+        orange: 0xff851b, // orange
+        purple: 0xb10dc9, // purple
+        green: 0x2ecc40, // green
+        brown: 0x654321, // brown
+      };
+
+      // Place camera
+      var camera = mathbox
+        .set({
+          focus: ortho,
+          scale: 720,
+        })
+        .camera({
+          proxy: true,
+          position: [ortho, ortho, ortho],
+        });
+
+      var view = mathbox.cartesian({
+        range: [
+          [-4, 4],
+          [-4, 4],
+          [-4, 4],
+        ],
+        scale: [1, 1, 1],
+      });
+
+      // mathbox.set({ scale: 200, focus: 1 });
+
+      let ex = [
+      0, 1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1,
+      1, -1, 1, -1, 1, -1,
+    ];
+    let ey = [
+      0, 0, 0, 1, -1, 0, 0, 1, 1, -1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, 1,
+      -1, -1, 1, 1, -1, -1,
+    ];
+    let ez = [
+      0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1,
+      1, 1, -1, -1, -1, -1,
+    ];
+
+    let e = [];
+
+    for (var i = 1; i < 27; i++) {
+      e.push([0,0,0]); // start point
+      e.push([ex[i] * 4, ez[i] * 4, ey[i] * 4]); // end point
+    }
+    console.log(e.slice(12, 24))
+
+      // Right
+      view.volume({
+          data: [
+            [ex[1]*4,ez[1]*4,ey[1]*4],[ex[9]*4,ez[9]*4,ey[9]*4],
+            [ex[21]*4,ez[21]*4,ey[21]*4],[ex[11]*4,ez[11]*4,ey[11]*4],
+            [ex[13]*4,ez[13]*4,ey[13]*4],[ex[25]*4,ez[25]*4,ey[25]*4],
+            [ex[9]*4,ez[9]*4,ey[9]*4],[ex[7]*4,ez[7]*4,ey[7]*4],
+            [ex[19]*4,ez[19]*4,ey[19]*4],[ex[11]*4,ez[11]*4,ey[11]*4],
+            [ex[13]*4,ez[13]*4,ey[13]*4],[ex[23]*4,ez[23]*4,ey[23]*4],
+            [ex[23]*4,ez[23]*4,ey[23]*4],[ex[19]*4,ez[19]*4,ey[19]*4],
+            [ex[19]*4,ez[19]*4,ey[19]*4],
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+        // Left
+        view.volume({
+          data: [
+            [ex[2]*4,ez[2]*4,ey[2]*4],[ex[10]*4,ez[10]*4,ey[10]*4],
+            [ex[22]*4,ez[22]*4,ey[22]*4],[ex[12]*4,ez[12]*4,ey[12]*4],
+            [ex[14]*4,ez[14]*4,ey[14]*4],[ex[26]*4,ez[26]*4,ey[26]*4],
+            [ex[10]*4,ez[10]*4,ey[10]*4],[ex[8]*4,ez[8]*4,ey[8]*4],
+            [ex[20]*4,ez[20]*4,ey[20]*4],[ex[12]*4,ez[12]*4,ey[12]*4],
+            [ex[14]*4,ez[14]*4,ey[14]*4],[ex[24]*4,ez[24]*4,ey[24]*4],
+            [ex[24]*4,ez[24]*4,ey[24]*4],[ex[20]*4,ez[20]*4,ey[20]*4],
+            [ex[20]*4,ez[20]*4,ey[20]*4],
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+        // Front
+        view.volume({
+          data: [
+            [ex[3]*4,ez[3]*4,ey[3]*4],[ex[7]*4,ez[7]*4,ey[7]*4],
+            [ex[19]*4,ez[19]*4,ey[19]*4],[ex[15]*4,ez[15]*4,ey[15]*4],
+            [ex[17]*4,ez[17]*4,ey[17]*4],[ex[23]*4,ez[23]*4,ey[23]*4],
+            [ex[23]*4,ez[23]*4,ey[23]*4],[ex[24]*4,ez[24]*4,ey[24]*4]
+            [ex[24]*4,ez[24]*4,ey[24]*4],[ex[20]*4,ez[20]*4,ey[20]*4],
+            [ex[19]*4,ez[19]*4,ey[19]*4],[ex[7]*4,ez[7]*4,ey[7]*4],
+            [ex[8]*4,ez[8]*4,ey[8]*4],[ex[8]*4,ez[8]*4,ey[8]*4],
+            [ex[20]*4,ez[20]*4,ey[20]*4],[ex[15]*4,ez[15]*4,ey[15]*4],
+            [ex[17]*4,ez[17]*4,ey[17]*4],[ex[24]*4,ez[24]*4,ey[24]*4],
+            [ex[17]*4,ez[17]*4,ey[17]*4],[ex[17]*4,ez[17]*4,ey[17]*4]
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+        // Back
+        view.volume({
+          data: [
+            [ex[4]*4,ez[4]*4,ey[4]*4],[ex[9]*4,ez[9]*4,ey[9]*4],
+            [ex[21]*4,ez[21]*4,ey[21]*4],[ex[16]*4,ez[16]*4,ey[16]*4],
+            [ex[4]*4,ez[4]*4,ey[4]*4],[ex[18]*4,ez[18]*4,ey[18]*4],
+            [ex[25]*4,ez[25]*4,ey[25]*4],[ex[9]*4,ez[9]*4,ey[9]*4]
+            [ex[4]*4,ez[4]*4,ey[4]*4],[ex[10]*4,ez[10]*4,ey[10]*4],
+            [ex[26]*4,ez[26]*4,ey[26]*4],[ex[18]*4,ez[18]*4,ey[18]*4],
+            [ex[16]*4,ez[16]*4,ey[16]*4],[ex[22]*4,ez[22]*4,ey[22]*4],
+            [ex[16]*4,ez[16]*4,ey[16]*4],[ex[22]*4,ez[22]*4,ey[22]*4],
+            [ex[10]*4,ez[10]*4,ey[10]*4],[ex[9]*4,ez[9]*4,ey[9]*4],
+            [ex[4]*4,ez[4]*4,ey[4]*4],[ex[10]*4,ez[10]*4,ey[10]*4],
+            [ex[10]*4,ez[10]*4,ey[10]*4],[ex[22]*4,ez[22]*4,ey[22]*4],
+            [ex[16]*4,ez[16]*4,ey[16]*4],[ex[16]*4,ez[16]*4,ey[16]*4],
+            [ex[21]*4,ez[21]*4,ey[21]*4],[ex[25]*4,ez[25]*4,ey[25]*4],
+            [ex[18]*4,ez[18]*4,ey[18]*4],[ex[18]*4,ez[18]*4,ey[18]*4]
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+        // Top
+        view.volume({
+          data: [
+            [ex[15]*4,ez[15]*4,ey[15]*4],[ex[5]*4,ez[5]*4,ey[5]*4],
+            [ex[16]*4,ez[16]*4,ey[16]*4],[ex[21]*4,ez[21]*4,ey[21]*4],
+            [ex[11]*4,ez[11]*4,ey[11]*4],[ex[5]*4,ez[5]*4,ey[5]*4]
+            [ex[12]*4,ez[12]*4,ey[12]*4],[ex[11]*4,ez[11]*4,ey[11]*4],
+            [ex[19]*4,ez[19]*4,ey[19]*4],[ex[20]*4,ez[20]*4,ey[20]*4],
+            [ex[12]*4,ez[12]*4,ey[12]*4],[ex[12]*4,ez[12]*4,ey[12]*4],
+            [ex[11]*4,ez[11]*4,ey[11]*4],[ex[11]*4,ez[11]*4,ey[11]*4],
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+        // Bottom
+        view.volume({
+          data: [
+            [ex[17]*4,ez[17]*4,ey[17]*4],[ex[6]*4,ez[6]*4,ey[6]*4],
+            [ex[18]*4,ez[18]*4,ey[18]*4],[ex[25]*4,ez[25]*4,ey[25]*4],
+            [ex[13]*4,ez[13]*4,ey[13]*4],[ex[14]*4,ez[14]*4,ey[14]*4]
+            [ex[14]*4,ez[14]*4,ey[14]*4],[ex[24]*4,ez[24]*4,ey[24]*4],
+            [ex[23]*4,ez[23]*4,ey[23]*4],[ex[13]*4,ez[13]*4,ey[13]*4],
+            [ex[13]*4,ez[13]*4,ey[13]*4],[ex[14]*4,ez[14]*4,ey[14]*4],
+            [ex[14]*4,ez[14]*4,ey[14]*4],[ex[13]*4,ez[13]*4,ey[13]*4],
+          ],
+          width: 4,
+          height: 4,
+          depth: 4,
+          channels: 3,
+          items: 1,
+          live: false,
+        })
+        .line({ color: colors.brown, width: 4, opacity: 0.5 });
+
+
+    // Center
+    var vector =
+        view.array({
+          data: [[0,0,0]],
+          width: 1,
+          channels: 3,
+          items: 2,
+        })
+        .point({
+          color: colors.red,
+          size: 20
+        })
+        .text({
+          aligned: true,
+          data: ["0"],
+        })
+        .label({
+          offset: [10, 10],
+          zIndex: 1,
+          color: 'black',
+        });
+
+      // nearest neighbors
+      let nn = e.slice(0, 12);
+      var vector =
+        view.array({
+          data: nn,
+          width: nn.length,
+          channels: 3,
+          items: 2,
+        })
+        .vector({
+          end: true,
+          width: 8,
+          color: colors.green,
+        })
+        .text({
+          items: 2,
+          data: [
+            "", "1",
+            "", "2",
+            "", "3",
+            "", "4",
+            "", "5",
+            "", "6",
+          ],
+        })
+        .label({
+          offset: [10, 10],
+          zIndex: 1,
+          color: 'black',
+        });
+
+      // next-nearest neighbors
+      let nnn = e.slice(12, 36);
+      var vector =
+        view.array({
+          data: nnn,
+          width: nnn.length,
+          channels: 3,
+          items: 2,
+        })
+        .vector({
+          end: true,
+          width: 8,
+          color: colors.blue,
+        }).text({
+          items: 2,
+          data: [
+            "", "7",
+            "", "8",
+            "", "9",
+            "", "10",
+            "", "11",
+            "", "12",
+            "", "13",
+            "", "14",
+            "", "15",
+            "", "16",
+            "", "17",
+            "", "18",
+          ],
+        })
+        .label({
+          offset: [10, 10],
+          zIndex: 1,
+          color: 'black',
+        });
+
+        // next to next-nearest neighbors
+      let nnnn = e.slice(36, 52);
+      var vector =
+        view.array({
+          data: nnnn,
+          width: nnnn.length,
+          channels: 3,
+          items: 2,
+          live: false,
+        })
+        .vector({
+          end: true,
+          width: 8,
+          color: colors.purple,
+        })
+        .text({
+          aligned: false,
+          items: 2,
+          data: [
+            "", "19",
+            "", "20",
+            "", "21",
+            "", "22",
+            "", "23",
+            "", "24",
+            "", "25",
+            "", "26",
+          ],
+        })
+        .label({
+          offset: [10, 10],
+          zIndex: 1,
+          color: 'black',
+        });
+    </script>
+  </body>
+</html>
