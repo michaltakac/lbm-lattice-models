@@ -9,7 +9,7 @@
   </head>
   <body>
     <script>
-      // D3Q27 lattice node model
+      // D3Q19 lattice node model
 
       var ortho = 10000;
 
@@ -62,93 +62,9 @@
 
       // mathbox.set({ scale: 200, focus: 1 });
 
-      let ex = [
-        0,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        -1,
-      ];
-      let ey = [
-        0,
-        0,
-        0,
-        1,
-        -1,
-        0,
-        0,
-        1,
-        1,
-        -1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-      ];
-      let ez = [
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        -1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        1,
-        1,
-        -1,
-        -1,
-        -1,
-        -1,
-      ];
+      let ex = [0, 1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, -1, 1, -1];
+      let ey = [0, 0, 0, 1, -1, 0, 0, 1, 1, -1, -1, 0, 0, 0, 0, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, -1];
+      let ez = [0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1];
 
       let e = [];
 
@@ -448,49 +364,43 @@
         });
 
       // next to next-nearest neighbors
-      let nnnn = e.slice(36, 52);
-      var vector = view
-        .array({
-          data: nnnn,
-          width: nnnn.length,
-          channels: 3,
-          items: 2,
-          live: false,
-        })
-        .vector({
-          end: true,
-          width: 8,
-          color: colors.purple,
-        })
-        .text({
-          aligned: false,
-          items: 2,
-          data: [
-            "",
-            "19",
-            "",
-            "20",
-            "",
-            "21",
-            "",
-            "22",
-            "",
-            "23",
-            "",
-            "24",
-            "",
-            "25",
-            "",
-            "26",
-          ],
-        })
-        .label({
-          offset: [10, 10],
-          zIndex: 1,
-          color: "black",
-        });
+      // let nnnn = e.slice(36, 52);
+      // var vector =
+      //   view.array({
+      //     data: nnnn,
+      //     width: nnnn.length,
+      //     channels: 3,
+      //     items: 2,
+      //     live: false,
+      //   })
+      //   .vector({
+      //     end: true,
+      //     width: 8,
+      //     color: colors.purple,
+      //   })
+      //   .text({
+      //     aligned: false,
+      //     items: 2,
+      //     data: [
+      //       "", "19",
+      //       "", "20",
+      //       "", "21",
+      //       "", "22",
+      //       "", "23",
+      //       "", "24",
+      //       "", "25",
+      //       "", "26",
+      //     ],
+      //   })
+      //   .label({
+      //     offset: [10, 10],
+      //     zIndex: 1,
+      //     color: 'black',
+      //   });
 
-      window.mb = mathbox.camera;
+      window.cam = function () {
+        return mathbox.select("camera");
+      };
     </script>
   </body>
 </html>
